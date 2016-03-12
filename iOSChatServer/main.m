@@ -48,6 +48,8 @@ int main(int argc, const char * argv[]) {
         // Add to run loop
         CFRunLoopAddSource(CFRunLoopGetCurrent(), socketSource, kCFRunLoopDefaultMode);
         
+        // Run loop
+        CFRunLoopRun();
         
     }
     return 0;
