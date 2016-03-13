@@ -10,25 +10,38 @@
 #include <CoreFoundation/CoreFoundation.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
-
+#import "StreamHandle.h"
 
 void connectionHandle (CFSocketRef sref, CFSocketCallBackType callBackType, CFDataRef address, const void *data, void *info)
 {
-    NSLog(@"SOMETHING IS HAPPENING!");
-    
-    // Create Read and Write Streams CF
-    CFWriteStreamRef writeStream;
-    CFReadStreamRef readStream;
-    
-    // Pair with socket
-    CFStreamCreatePairWithSocket(kCFAllocatorDefault, (CFSocketNativeHandle) data, &readStream, &writeStream);
-    
-    // Cast to NS Stream
-    NSInputStream *inStream = (__bridge_transfer NSInputStream *) readStream;
-    NSOutputStream *outStream = (__bridge_transfer NSOutputStream *)writeStream;
-    
+    if (callBackType == kCFSocketAcceptCallBack)
+    {
+        NSLog(@"SOMETHING IS HAPPENING!");
+        
+        // Create Read and Write Streams CF
+        CFWriteStreamRef writeStream;
+        CFReadStreamRef readStream;
+        
+        // Pair with socket
+        CFStreamCreatePairWithSocket(kCFAllocatorDefault, (CFSocketNativeHandle) data, &readStream, &writeStream);
+        
+        // Cast to NS Stream
+        NSInputStream *inStream = (__bridge_transfer NSInputStream *) readStream;
+        NSOutputStream *outStream = (__bridge_transfer NSOutputStream *)writeStream;
+        
+        StreamHandle *streamHandle = [[StreamHandle alloc] initWithStreams:inStream outputStream:outStream];
+        
+        [streamHandle.iStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+        [streamHandle.oStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+        
+        [streamHandle.iStream open];
+        [streamHandle.oStream open];
+        
+        while (streamHandle != nil) {
+            [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+        }
+    }
 }
-
 int main(int argc, const char * argv[]) {
     @autoreleasepool {
         // insert code here...
@@ -44,7 +57,7 @@ int main(int argc, const char * argv[]) {
         memset(&sin, 0, sizeof(sin));
         sin.sin_len = sizeof(sin);
         sin.sin_family = AF_INET; // Address family
-        sin.sin_port = htons(12345);
+        sin.sin_port = htons(12354);
         sin.sin_addr.s_addr = INADDR_ANY;
         
         // CFDataRef: object containing a sockaddr struct

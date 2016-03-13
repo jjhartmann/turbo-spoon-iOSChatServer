@@ -8,6 +8,10 @@
 
 #import <Foundation/Foundation.h>
 
-@interface StreamHandle : NSObject
+@interface StreamHandle : NSObject <NSStreamDelegate>
+@property NSInputStream *iStream;
+@property NSOutputStream *oStream;
+
+- (id) initWithStreams:(NSInputStream *)is outputStream:(NSOutputStream *)os;
 
 @end

@@ -10,4 +10,27 @@
 
 @implementation StreamHandle
 
+- (id)initWithStreams:(NSInputStream *)is outputStream:(NSOutputStream *)os
+{
+    self = [super init];
+    if (self != nil)
+    {
+        // Initialise streams
+        _iStream = is;
+        _oStream = os;
+        
+        [_iStream setDelegate:self];
+        [_oStream setDelegate:self];
+    }
+    return self;
+}
+
+#pragma mark -
+#pragma mark NSStream Delegate Methods
+-(void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode
+{
+    // Do something
+    NSLog(@"STREAM Handle called.");
+}
+
 @end
