@@ -15,6 +15,18 @@
 void connectionHandle (CFSocketRef sref, CFSocketCallBackType callBackType, CFDataRef address, const void *data, void *info)
 {
     NSLog(@"SOMETHING IS HAPPENING!");
+    
+    // Create Read and Write Streams CF
+    CFWriteStreamRef writeStream;
+    CFReadStreamRef readStream;
+    
+    // Pair with socket
+    CFStreamCreatePairWithSocket(kCFAllocatorDefault, (CFSocketNativeHandle) data, &readStream, &writeStream);
+    
+    // Cast to NS Stream
+    NSInputStream *inStream = (__bridge_transfer NSInputStream *) readStream;
+    NSOutputStream *outStream = (__bridge_transfer NSOutputStream *)writeStream;
+    
 }
 
 int main(int argc, const char * argv[]) {
