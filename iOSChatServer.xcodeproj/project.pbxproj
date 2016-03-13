@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		77D5B5BD1C93DF04004AC755 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 77D5B5BC1C93DF04004AC755 /* main.m */; };
+		77D5B5C51C95320A004AC755 /* StreamHandle.m in Sources */ = {isa = PBXBuildFile; fileRef = 77D5B5C41C95320A004AC755 /* StreamHandle.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +26,8 @@
 /* Begin PBXFileReference section */
 		77D5B5B91C93DF04004AC755 /* iOSChatServer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = iOSChatServer; sourceTree = BUILT_PRODUCTS_DIR; };
 		77D5B5BC1C93DF04004AC755 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		77D5B5C31C95320A004AC755 /* StreamHandle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StreamHandle.h; sourceTree = "<group>"; };
+		77D5B5C41C95320A004AC755 /* StreamHandle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StreamHandle.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +61,8 @@
 			isa = PBXGroup;
 			children = (
 				77D5B5BC1C93DF04004AC755 /* main.m */,
+				77D5B5C31C95320A004AC755 /* StreamHandle.h */,
+				77D5B5C41C95320A004AC755 /* StreamHandle.m */,
 			);
 			path = iOSChatServer;
 			sourceTree = "<group>";
@@ -119,6 +124,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				77D5B5BD1C93DF04004AC755 /* main.m in Sources */,
+				77D5B5C51C95320A004AC755 /* StreamHandle.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
