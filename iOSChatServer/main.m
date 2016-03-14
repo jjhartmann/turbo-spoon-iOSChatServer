@@ -12,6 +12,28 @@
 #include <netinet/in.h>
 #import "StreamHandle.h"
 
+#pragma mark Main Object
+//////////////////////////////////////////////////////////////////////////////////////////
+/// Main Object
+@interface Main : NSObject <StreamHandleDelegate>
+- (void)runServerOnPort:(NSInteger)port;
+
+
+@end
+
+@implementation Main
+
+- (void)runServerOnPort:(NSInteger)port
+{
+    // Setup Stream handle class, start server, and place in runloop.
+}
+
+@end
+
+
+
+
+#pragma mark Main
 void connectionHandle (CFSocketRef sref, CFSocketCallBackType callBackType, CFDataRef address, const void *data, void *info)
 {
     if (callBackType == kCFSocketAcceptCallBack)

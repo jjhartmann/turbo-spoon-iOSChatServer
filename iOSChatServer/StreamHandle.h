@@ -8,6 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol StreamHandleDelegate;
+
 @interface StreamHandle : NSObject <NSStreamDelegate>
 @property NSInputStream *iStream;
 @property NSOutputStream *oStream;
