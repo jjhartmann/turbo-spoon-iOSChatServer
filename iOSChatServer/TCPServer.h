@@ -8,6 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol TCPServerDelegate;
+
 @interface TCPServer : NSObject
+@property id <TCPServerDelegate> delegate;
+@property NSInteger portNumber;
+
+- (id) initWithPort:(NSInteger)port;
 
 @end

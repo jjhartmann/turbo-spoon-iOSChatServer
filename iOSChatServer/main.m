@@ -11,16 +11,17 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #import "StreamHandle.h"
+#import "TCPServer.h"
 
 #pragma mark Main Object
 //////////////////////////////////////////////////////////////////////////////////////////
 /// Main Object
-@interface Main : NSObject <StreamHandleDelegate>
+@interface Main : NSObject
 - (void)runServerOnPort:(NSInteger)port;
 @end
 
 @interface Main ()
-@property StreamHandle *streamHandle;
+@property TCPServer *server;
 @end
 
 @implementation Main
@@ -28,6 +29,7 @@
 - (void)runServerOnPort:(NSInteger)port
 {
     // Setup Stream handle class, start server, and place in runloop.
+    self.server = [[TCPServer alloc] initWithPort:port];
 }
 
 @end
