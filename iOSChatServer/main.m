@@ -16,7 +16,7 @@
 #pragma mark Main Object
 //////////////////////////////////////////////////////////////////////////////////////////
 /// Main Object
-@interface Main : NSObject
+@interface Main : NSObject <TCPServerDelegate>
 - (void)runServerOnPort:(NSInteger)port;
 @end
 
@@ -30,6 +30,14 @@
 {
     // Setup Stream handle class, start server, and place in runloop.
     self.server = [[TCPServer alloc] initWithPort:port];
+    self.server.delegate = self;
+    
+    // Enter Run Loop
+    while (self.server != nil)
+    {
+        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
+    }
+    
 }
 
 @end
