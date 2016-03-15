@@ -8,8 +8,13 @@
 
 #import "StreamHandle.h"
 
+@interface StreamHandle ()
+
+@end
+
 @implementation StreamHandle
 
+// Init with input and output streams
 - (id)initWithStreams:(NSInputStream *)is outputStream:(NSOutputStream *)os
 {
     self = [super init];
