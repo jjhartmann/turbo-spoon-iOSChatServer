@@ -17,8 +17,10 @@
 /// Main Object
 @interface Main : NSObject <StreamHandleDelegate>
 - (void)runServerOnPort:(NSInteger)port;
+@end
 
-
+@interface Main ()
+@property StreamHandle *streamHandle;
 @end
 
 @implementation Main
