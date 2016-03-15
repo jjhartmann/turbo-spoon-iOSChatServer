@@ -24,7 +24,7 @@ static void connectionHandle(CFSocketRef sref, CFSocketCallBackType type, CFData
     TCPServer *obj = (__bridge TCPServer*)info;
     assert([obj isKindOfClass:[TCPServer class]]);
     
-    // Read incoming data. 
+    // Read incoming data. // Set up streams
     
 }
 
@@ -39,7 +39,7 @@ static void connectionHandle(CFSocketRef sref, CFSocketCallBackType type, CFData
         const CFSocketContext context = {0, (__bridge void *)(self), NULL, NULL, NULL};
         
         // Create socket. Pass in a functor callback methoid. connectionHandle. TODO: replace nil with connection Handle.
-        _socket = CFSocketCreate(kCFAllocatorDefault, PF_INET, SOCK_STREAM, IPPROTO_TCP, kCFSocketAcceptCallBack, nil, &context);
+        _socket = CFSocketCreate(kCFAllocatorDefault, PF_INET, SOCK_STREAM, IPPROTO_TCP, kCFSocketAcceptCallBack, connectionHandle, &context);
         
         // Specifies info about port and family
         struct sockaddr_in sin;
@@ -48,7 +48,7 @@ static void connectionHandle(CFSocketRef sref, CFSocketCallBackType type, CFData
         memset(&sin, 0, sizeof(sin));
         sin.sin_len = sizeof(sin);
         sin.sin_family = AF_INET; // Address family
-        sin.sin_port = htons(12354);
+        sin.sin_port = htons(port);
         sin.sin_addr.s_addr = INADDR_ANY;
         
         // CFDataRef: object containing a sockaddr struct

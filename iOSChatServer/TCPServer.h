@@ -17,3 +17,9 @@
 - (id) initWithPort:(NSInteger)port;
 
 @end
+
+
+@protocol TCPServerDelegate <NSObject>
+
+
+@end
