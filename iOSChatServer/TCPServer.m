@@ -18,7 +18,7 @@
 
 @implementation TCPServer
 
-// Functor to handle callbacks to from socket connection
+/// Functor to handle callbacks to from socket connection
 static void connectionHandle(CFSocketRef sref, CFSocketCallBackType type, CFDataRef address, const void *data, void *info)
 {
     TCPServer *obj = (__bridge TCPServer*)info;
@@ -28,10 +28,13 @@ static void connectionHandle(CFSocketRef sref, CFSocketCallBackType type, CFData
     int fileDescriptor = *(const int *)data;
     
     // Create connection with file descriptor.
-    
+    if (type  == kCFSocketAcceptCallBack)
+    {
+        
+    }
 }
 
-
+/// Init with port number and set up initial server settings on IPv4
 - (id)initWithPort:(NSInteger)port
 {
     self = [super init];
@@ -66,16 +69,42 @@ static void connectionHandle(CFSocketRef sref, CFSocketCallBackType type, CFData
         
         // Add to run loop
         CFRunLoopAddSource(CFRunLoopGetCurrent(), socketSource, kCFRunLoopDefaultMode);
-
+        
+        // Create Mutable array to store stream handles
+        _streamHandleMutable = [[NSMutableArray alloc] init];
+        _streamHandleSeqNumber = 0;
     }
     
     return self;
 }
 
+/// Start the server and entire into runloop
 - (void)start
 {
     // Start the run loop.
     CFRunLoopRun();
+}
+
+/// Create a stream hanble on the connection and add to NSMutable Array. 
+- (void)streamAcceptedWithSocket:(NSInteger)fd
+{
+
+    NSLog(@"SOMETHING IS HAPPENING!");
+    
+    // Create Read and Write Streams CF
+    CFWriteStreamRef writeStream;
+    CFReadStreamRef readStream;
+    
+    // Pair with socket
+    CFStreamCreatePairWithSocket(kCFAllocatorDefault, (CFSocketNativeHandle) fd, &readStream, &writeStream);
+    
+    // Cast to NS Stream
+    NSInputStream *inStream = (__bridge_transfer NSInputStream *) readStream;
+    NSOutputStream *outStream = (__bridge_transfer NSOutputStream *)writeStream;
+    
+    // Create new Stream handle and add to mutable array
+    
+    
 }
 
 @end
