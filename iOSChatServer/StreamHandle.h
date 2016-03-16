@@ -18,11 +18,21 @@
 @property NSInteger oBufSize;
 @property BOOL isOpen;
 @property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) id <StreamHandleDelegate> delegate;
 
 - (id) initWithStreams:(NSInputStream *)is outputStream:(NSOutputStream *)os;
 - (void)open;
 - (void)closeWithError:(NSError *)error;
 - (void)processInput;
 - (void)parseBufferInput;
+
+@end
+
+
+@protocol StreamHandleDelegate <NSObject>
+
+- (void)proccessIAmCommand:(NSString *)name;
+- (void)processsMsgCommand:(NSString *)message;
+- (void)closeConnectionHandle:(StreamHandle *)handle;
 
 @end
