@@ -96,8 +96,11 @@
     }
     else
     {
+        // Set length of buffer to capacity
+        [self.iBuffer setLength:self.iBufSize];
+        
         // Process the stream
-        bytesRead = [self.iStream read:([self.iBuffer mutableBytes]) + bufLen maxLength:self.iBufSize - bufLen];
+        bytesRead = [self.iStream read:((uint8_t *) [self.iBuffer mutableBytes]) + bufLen maxLength:self.iBufSize - bufLen];
         
         // Check for error
         if (bytesRead <= 0)
