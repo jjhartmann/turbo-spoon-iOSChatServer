@@ -122,7 +122,8 @@ static void connectionHandle(CFSocketRef sref, CFSocketCallBackType type, CFData
     // Broadcast message to all connected clients
     for (StreamHandle *obj in self.streamHandleMutable)
     {
-        [obj sendStringCmd:[NSString stringWithFormat:@"From: %@.\n Message: %@ \n", @"JEREMY", message]];
+        if (obj != context)
+            [obj sendStringCmd:[NSString stringWithFormat:@"From: %@.\nMessage: %@ \n", @"JEREMY", message]];
     }
 }
 
