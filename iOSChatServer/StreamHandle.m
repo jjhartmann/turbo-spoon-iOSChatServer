@@ -86,8 +86,35 @@
 - (void)processInput
 {
     // Use the member variable self.ibuffer.
- 
+    NSInteger bytesRead = 0;
+    NSInteger bufLen = [self.iBuffer length];
+    
+    // If the buffer is full close connection
+    if (bufLen == self.iBufSize)
+    {
+        [self closeWithError:nil];
+    }
+    else
+    {
+        // Process the stream
+        bytesRead = [self.iStream read:([self.iBuffer mutableBytes]) + bufLen maxLength:self.iBufSize - bufLen];
         
+        // Check for error
+        if (bytesRead <= 0)
+        {
+            // Error
+            [self closeWithError:nil];
+        }
+        else
+        {
+            // Set the length of the mutable array
+            [self.iBuffer setLength:bytesRead + bufLen];
+            
+            // Call method to parse the protocol
+            
+        }
+    }
+    
 }
 
 #pragma mark -
@@ -105,7 +132,7 @@
         }
         case NSStreamEventHasBytesAvailable: // Read from stream
         {
-            
+            [self processInput];
             break;
         }
         case NSStreamEventHasSpaceAvailable: // Write to stream
