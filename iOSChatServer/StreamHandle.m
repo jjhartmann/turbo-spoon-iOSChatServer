@@ -81,6 +81,15 @@
         [self.oStream close];
     }
 }
+
+/// Process the input form the stream
+- (void)processInput
+{
+    // Use the member variable self.ibuffer.
+ 
+        
+}
+
 #pragma mark -
 #pragma mark NSStream Delegate Methods
 -(void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode
@@ -96,6 +105,7 @@
         }
         case NSStreamEventHasBytesAvailable: // Read from stream
         {
+            
             break;
         }
         case NSStreamEventHasSpaceAvailable: // Write to stream

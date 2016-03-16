@@ -22,5 +22,6 @@
 - (id) initWithStreams:(NSInputStream *)is outputStream:(NSOutputStream *)os;
 - (void)open;
 - (void)closeWithError:(NSError *)error;
+- (void)processInput;
 
 @end
