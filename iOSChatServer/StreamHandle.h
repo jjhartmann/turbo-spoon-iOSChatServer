@@ -16,7 +16,9 @@
 @property NSMutableSet *runLoopModesSet;
 @property NSInteger iBufSize;
 @property NSInteger oBufSize;
+@property BOOL isOpen;
 
 - (id) initWithStreams:(NSInputStream *)is outputStream:(NSOutputStream *)os;
+- (void)open;
 
 @end

@@ -16,7 +16,7 @@
 
 @implementation StreamHandle
 
-// Init with input and output streams
+/// Init with input and output streams
 - (id)initWithStreams:(NSInputStream *)is outputStream:(NSOutputStream *)os
 {
     self = [super init];
@@ -30,6 +30,36 @@
         [_oStream setDelegate:self];
     }
     return self;
+}
+
+/// Open the connections to the streams and add to current run loop
+- (void)open
+{
+    assert(self.isOpen == NO);
+    
+    // Set input and outbut buffer
+    if (self.iBufSize == 0)
+    {
+        self.iBufSize = 16 * 1024;
+    }
+    if (self.oBufSize == 0)
+    {
+        self.oBufSize = 16 * 1024;
+    }
+    
+    // Create empty buffer
+    self.iBuffer = [NSMutableData dataWithCapacity:self.iBufSize];
+    self.oBuffer = [NSMutableData dataWithCapacity:self.oBufSize];
+    
+    //Add to current run loop
+    [self.iStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+    [self.oStream scheduleInRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+
+    // Open connections
+    [self.iStream open];
+    [self.oStream open];
+    
+    self.isOpen = YES;
 }
 
 #pragma mark -
