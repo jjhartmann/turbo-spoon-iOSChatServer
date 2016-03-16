@@ -25,6 +25,9 @@ static void connectionHandle(CFSocketRef sref, CFSocketCallBackType type, CFData
     assert([obj isKindOfClass:[TCPServer class]]);
     
     // Read incoming data. // Set up streams
+    int fileDescriptor = *(const int *)data;
+    
+    // Create connection with file descriptor.
     
 }
 
@@ -67,6 +70,12 @@ static void connectionHandle(CFSocketRef sref, CFSocketCallBackType type, CFData
     }
     
     return self;
+}
+
+- (void)start
+{
+    // Start the run loop.
+    CFRunLoopRun();
 }
 
 @end

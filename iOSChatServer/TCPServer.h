@@ -15,7 +15,7 @@
 @property NSInteger portNumber;
 
 - (id) initWithPort:(NSInteger)port;
-
+- (void)start;
 @end
 
 
