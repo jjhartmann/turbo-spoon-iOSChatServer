@@ -123,7 +123,31 @@
 /// Parse the data in held inside the iBuffer NSMultableData
 - (void)parseBufferInput
 {
+    // Set length minus CRLF (\n\r)
+    NSInteger totalBytesInBuf = [self.iBuffer length];
+    NSInteger offset = 0;
+    const uint8_t *bytes = [self.iBuffer bytes];
     
+    // Minus CR LF
+    NSString *inputString = [[NSString alloc] initWithBytes:&bytes[offset] length:totalBytesInBuf - 2 encoding:NSUTF8StringEncoding];
+    
+    // Process command
+    NSArray *command = [inputString componentsSeparatedByString:@":"];
+    
+    // Check if this is an "iam" add.
+    if ([command[0] isEqualToString:@"iam"])
+    {
+        // add user to group
+    }
+    
+    // Check if this is message cmd.
+    if ([command[0] isEqualToString:@"msg"])
+    {
+        // Broadcast message.
+        
+    }
+    
+
 }
 
 #pragma mark -
