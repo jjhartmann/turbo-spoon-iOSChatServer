@@ -22,7 +22,7 @@
 
 - (id) initWithStreams:(NSInputStream *)is outputStream:(NSOutputStream *)os;
 - (void)open;
-- (void)closeWithError:(NSError *)error;
+- (void)closeWithError:(NSError *)error notifyDelegate:(BOOL)notify;
 - (void)processInput;
 - (void)parseBufferInput;
 - (void)sendStringCmd:(NSString *)command;

@@ -64,7 +64,7 @@
 
 
 /// Close connection with reference to an error
-- (void)closeWithError:(NSError *)error
+- (void)closeWithError:(NSError *)error notifyDelegate:(BOOL)notify
 {
     if (self.isOpen)
     {
@@ -80,6 +80,14 @@
         [self.iStream close];
         [self.oStream close];
     }
+    
+    if (notify)
+    {
+        if ([self.delegate respondsToSelector:@selector(closeConnectionHandle:)])
+        {
+            [self.delegate closeConnectionHandle:self];
+        }
+    }
 }
 
 /// Process the input form the stream
@@ -92,7 +100,7 @@
     // If the buffer is full close connection
     if (bufLen == self.iBufSize)
     {
-        [self closeWithError:nil];
+        [self closeWithError:nil notifyDelegate:YES];
     }
     else
     {
@@ -106,7 +114,7 @@
         if (bytesRead <= 0)
         {
             // Error
-            [self closeWithError:nil];
+            [self closeWithError:nil notifyDelegate:YES];
         }
         else
         {
@@ -145,7 +153,8 @@
     {
         // add user to group
         NSLog(@"User joined: %@", command[1]);
-        
+        NSString *tmp = [NSString stringWithFormat:@"ECHO from IAM: %@ \n", command[1]];
+        [self sendStringCmd:tmp];
     }
     
     // Check if this is message cmd.
@@ -153,7 +162,8 @@
     {
         // Broadcast message.
         NSLog(@"Message: %@", command[1]);
-        
+        NSString *tmp = [NSString stringWithFormat:@"ECHO from MSG: %@ \n", command[1]];
+        [self sendStringCmd:tmp];
     }
     
 
@@ -174,7 +184,7 @@
     if (bytesWritten <= 0)
     {
         // Close connection
-        [self closeWithError:nil];
+        [self closeWithError:nil notifyDelegate:YES];
     }
     else
     {

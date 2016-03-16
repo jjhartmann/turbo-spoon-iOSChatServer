@@ -108,6 +108,7 @@ static void connectionHandle(CFSocketRef sref, CFSocketCallBackType type, CFData
     StreamHandle *handle = [[StreamHandle alloc] initWithStreams:inStream outputStream:outStream];
     handle.name = [NSString stringWithFormat:@"%zu", self.streamHandleSeqNumber];
     self.streamHandleSeqNumber++;
+    handle.delegate = self;
     [handle open];
     
     [self.streamHandleMutable addObject:handle];
