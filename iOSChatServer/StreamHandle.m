@@ -143,7 +143,13 @@
     const uint8_t *bytes = [self.iBuffer bytes];
     
     // Minus CR LF
-    NSString *inputString = [[NSString alloc] initWithBytes:&bytes[offset] length:totalBytesInBuf - 2 encoding:NSUTF8StringEncoding];
+    NSString *inputString = [[NSString alloc] initWithBytes:&bytes[offset] length:totalBytesInBuf encoding:NSUTF8StringEncoding];
+    
+    // Remove CR LF
+    NSString *commandString;
+    NSScanner *scanner = [[NSScanner alloc] initWithString:inputString];
+    [scanner scanCharactersFromSet:[NSCharacterSet alphanumericCharacterSet] intoString:&commandString];
+    
     
     // Process command
     NSArray *command = [inputString componentsSeparatedByString:@":"];
