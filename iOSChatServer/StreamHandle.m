@@ -85,8 +85,36 @@
 #pragma mark NSStream Delegate Methods
 -(void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode
 {
-    // Do something
-    NSLog(@"STREAM Handle called.");
+    // Check stream with self.
+    assert(aStream == self.iStream || aStream == self.oStream);
+    
+    // Demultiplex the messages.
+    switch (eventCode) {
+        case NSStreamEventOpenCompleted:
+        {
+            break;
+        }
+        case NSStreamEventHasBytesAvailable: // Read from stream
+        {
+            break;
+        }
+        case NSStreamEventHasSpaceAvailable: // Write to stream
+        {
+            break;
+        }
+        case NSStreamEventEndEncountered: // End of stream
+        {
+            break;
+        }
+        case NSStreamEventErrorOccurred: // Error in Stream
+        {
+            break;
+        }
+        default:
+            break;
+    }
+    
+    
 }
 
 @end
