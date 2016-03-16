@@ -111,9 +111,15 @@
             [self.iBuffer setLength:bytesRead + bufLen];
             
             // Call method to parse the protocol
-            
+            [self parseBufferInput];
         }
     }
+    
+}
+
+/// Parse the data in held inside the iBuffer NSMultableData
+- (void)parseBufferInput
+{
     
 }
 

@@ -23,5 +23,6 @@
 - (void)open;
 - (void)closeWithError:(NSError *)error;
 - (void)processInput;
+- (void)parseBufferInput;
 
 @end
