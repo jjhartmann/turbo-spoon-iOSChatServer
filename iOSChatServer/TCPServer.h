@@ -13,8 +13,11 @@
 @interface TCPServer : NSObject
 @property id <TCPServerDelegate> delegate;
 @property NSInteger portNumber;
+@property NSMutableArray *streamHandleMutable;
+@property NSInteger streamHandleSeqNumber;
 
 - (id) initWithPort:(NSInteger)port;
+- (void)streamAcceptedWithSocket:(NSInteger)fd;
 - (void)start;
 @end
 
