@@ -10,7 +10,6 @@
 #include <CoreFoundation/CoreFoundation.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
-#import "StreamHandle.h"
 
 @interface TCPServer ()
 @property CFSocketRef socket;
@@ -19,6 +18,7 @@
 
 @implementation TCPServer
 
+#pragma mark connection Handle functor callback
 /// Functor to handle callbacks to from socket connection
 static void connectionHandle(CFSocketRef sref, CFSocketCallBackType type, CFDataRef address, const void *data, void *info)
 {
@@ -35,6 +35,7 @@ static void connectionHandle(CFSocketRef sref, CFSocketCallBackType type, CFData
     }
 }
 
+#pragma mark TCPServer Methods
 /// Init with port number and set up initial server settings on IPv4
 - (id)initWithPort:(NSInteger)port
 {
@@ -110,6 +111,26 @@ static void connectionHandle(CFSocketRef sref, CFSocketCallBackType type, CFData
     [handle open];
     
     [self.streamHandleMutable addObject:handle];
+}
+
+
+#pragma mark Stream Handle Callbacks
+/// Process the message command and broadcast to all connections
+- (void)processsMsgCommand:(NSString *)message
+{
+    
+}
+
+/// Process the iam command and add user to connection
+- (void)proccessIAmCommand:(NSString *)name
+{
+    
+}
+
+/// Process when a connection closes
+- (void)closeConnectionHandle:(StreamHandle *)handle
+{
+    
 }
 
 @end

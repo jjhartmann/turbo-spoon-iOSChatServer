@@ -7,10 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "StreamHandle.h"
 
 @protocol TCPServerDelegate;
 
-@interface TCPServer : NSObject
+@interface TCPServer : NSObject <StreamHandleDelegate>
 @property id <TCPServerDelegate> delegate;
 @property NSInteger portNumber;
 @property NSMutableArray *streamHandleMutable;
