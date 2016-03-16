@@ -25,6 +25,7 @@
 - (void)closeWithError:(NSError *)error;
 - (void)processInput;
 - (void)parseBufferInput;
+- (void)sendStringCmd:(NSString *)command;
 
 @end
 

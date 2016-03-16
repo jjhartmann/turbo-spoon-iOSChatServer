@@ -159,6 +159,30 @@
 
 }
 
+/// Send string command to clients
+- (void)sendStringCmd:(NSString *)command
+{
+    // Convert into NSData*
+    NSData *data = [command dataUsingEncoding:NSUTF8StringEncoding];
+    
+    // Append to out buffer
+    [self.oBuffer appendData:data];
+    
+    // Write to oStream
+    NSInteger bytesWritten = [self.oStream write:[self.oBuffer bytes] maxLength:[self.oBuffer length]];
+    
+    if (bytesWritten <= 0)
+    {
+        // Close connection
+        [self closeWithError:nil];
+    }
+    else
+    {
+        // Zero out out buffer
+        [self.oBuffer replaceBytesInRange:NSMakeRange(0, bytesWritten) withBytes:NULL length:0];
+    }
+}
+
 #pragma mark -
 #pragma mark NSStream Delegate Methods
 -(void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode
