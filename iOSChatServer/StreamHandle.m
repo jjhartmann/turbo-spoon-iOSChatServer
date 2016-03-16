@@ -118,6 +118,12 @@
         }
     }
     
+    if (bytesRead > 0)
+    {
+        // Reset the ibuffer
+        [self.iBuffer replaceBytesInRange:NSMakeRange(0, bytesRead) withBytes:NULL length:0];
+    }
+    
 }
 
 /// Parse the data in held inside the iBuffer NSMultableData
