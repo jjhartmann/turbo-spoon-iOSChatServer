@@ -62,6 +62,25 @@
     self.isOpen = YES;
 }
 
+
+/// Close connection with reference to an error
+- (void)closeWithError:(NSError *)error
+{
+    if (self.isOpen)
+    {
+        // Set delgates to nil
+        [self.iStream setDelegate:nil];
+        [self.oStream setDelegate:nil];
+        
+        // Remove the streams from the run loop
+        [self.iStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+        [self.oStream removeFromRunLoop:[NSRunLoop currentRunLoop] forMode:NSDefaultRunLoopMode];
+        
+        // Close the stream
+        [self.iStream close];
+        [self.oStream close];
+    }
+}
 #pragma mark -
 #pragma mark NSStream Delegate Methods
 -(void)stream:(NSStream *)aStream handleEvent:(NSStreamEvent)eventCode
