@@ -138,12 +138,15 @@
     if ([command[0] isEqualToString:@"iam"])
     {
         // add user to group
+        NSLog(@"User joined: %@", command[1]);
+        
     }
     
     // Check if this is message cmd.
     if ([command[0] isEqualToString:@"msg"])
     {
         // Broadcast message.
+        NSLog(@"Message: %@", command[1]);
         
     }
     
