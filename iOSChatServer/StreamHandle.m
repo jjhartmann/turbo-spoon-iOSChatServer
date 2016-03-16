@@ -204,23 +204,28 @@
     switch (eventCode) {
         case NSStreamEventOpenCompleted:
         {
+            NSLog(@"StreamHandle: NSStreamEventOpenCompleted");
             break;
         }
         case NSStreamEventHasBytesAvailable: // Read from stream
         {
+            NSLog(@"StreamHandle: NSStreamEventHasBytesAvailable");
             [self processInput];
             break;
         }
         case NSStreamEventHasSpaceAvailable: // Write to stream
         {
+            NSLog(@"StreamHandle: NSStreamEventHasSpaceAvailable");
             break;
         }
         case NSStreamEventEndEncountered: // End of stream
         {
+            NSLog(@"StreamHandle: NSStreamEventEndEncountered");
             break;
         }
         case NSStreamEventErrorOccurred: // Error in Stream
         {
+            NSLog(@"StreamHandle: NSStreamEventErrorOccurred");
             break;
         }
         default:
