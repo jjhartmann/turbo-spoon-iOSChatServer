@@ -165,7 +165,7 @@
         NSLog(@"Message: %@", command[1]);
 //        NSString *tmp = [NSString stringWithFormat:@"ECHO from MSG: %@ \n", command[1]];
 //        [self sendStringCmd:tmp];
-        if ([self.delegate respondsToSelector:@selector(processsMsgCommand:)])
+        if ([self.delegate respondsToSelector:@selector(processsMsgCommand:context:)])
         {
             [self.delegate processsMsgCommand:command[1] context:self];
         }
