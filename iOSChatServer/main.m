@@ -31,12 +31,8 @@
     self.server = [[TCPServer alloc] initWithPort:port];
     self.server.delegate = self;
     
-    // Enter Run Loop
-    while (self.server != nil)
-    {
-        [[NSRunLoop currentRunLoop] runMode:NSDefaultRunLoopMode beforeDate:[NSDate distantFuture]];
-    }
-    
+    // Start server
+    [self.server start];
 }
 
 @end
