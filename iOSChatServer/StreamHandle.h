@@ -11,8 +11,11 @@
 @protocol StreamHandleDelegate;
 
 @interface StreamHandle : NSObject <NSStreamDelegate>
-@property NSInputStream *iStream;
-@property NSOutputStream *oStream;
+@property (nonatomic, strong) NSInputStream *iStream;
+@property (nonatomic, strong) NSOutputStream *oStream;
+@property NSMutableSet *runLoopModesSet;
+@property NSInteger iBufSize;
+@property NSInteger oBufSize;
 
 - (id) initWithStreams:(NSInputStream *)is outputStream:(NSOutputStream *)os;
 
