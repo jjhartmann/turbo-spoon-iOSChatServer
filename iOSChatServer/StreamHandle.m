@@ -155,6 +155,7 @@
         NSLog(@"User joined: %@", command[1]);
         NSString *tmp = [NSString stringWithFormat:@"ECHO from IAM: %@ \n", command[1]];
         [self sendStringCmd:tmp];
+
     }
     
     // Check if this is message cmd.
@@ -162,8 +163,12 @@
     {
         // Broadcast message.
         NSLog(@"Message: %@", command[1]);
-        NSString *tmp = [NSString stringWithFormat:@"ECHO from MSG: %@ \n", command[1]];
-        [self sendStringCmd:tmp];
+//        NSString *tmp = [NSString stringWithFormat:@"ECHO from MSG: %@ \n", command[1]];
+//        [self sendStringCmd:tmp];
+        if ([self.delegate respondsToSelector:@selector(processsMsgCommand:)])
+        {
+            [self.delegate processsMsgCommand:command[1] context:self];
+        }
     }
     
 

@@ -32,8 +32,8 @@
 
 @protocol StreamHandleDelegate <NSObject>
 
-- (void)proccessIAmCommand:(NSString *)name;
-- (void)processsMsgCommand:(NSString *)message;
+- (void)proccessIAmCommand:(NSString *)name context:(StreamHandle *)context;
+- (void)processsMsgCommand:(NSString *)message context:(StreamHandle *)context;
 - (void)closeConnectionHandle:(StreamHandle *)handle;
 
 @end

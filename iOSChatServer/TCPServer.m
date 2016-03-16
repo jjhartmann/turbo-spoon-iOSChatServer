@@ -117,13 +117,17 @@ static void connectionHandle(CFSocketRef sref, CFSocketCallBackType type, CFData
 
 #pragma mark Stream Handle Callbacks
 /// Process the message command and broadcast to all connections
-- (void)processsMsgCommand:(NSString *)message
+- (void)processsMsgCommand:(NSString *)message context:(StreamHandle *)context
 {
-    
+    // Broadcast message to all connected clients
+    for (StreamHandle *obj in self.streamHandleMutable)
+    {
+        [obj sendStringCmd:[NSString stringWithFormat:@"From: %@.\n Message: %@ \n", @"JEREMY", message]];
+    }
 }
 
 /// Process the iam command and add user to connection
-- (void)proccessIAmCommand:(NSString *)name
+- (void)proccessIAmCommand:(NSString *)name context:(StreamHandle *)context
 {
     
 }
@@ -131,7 +135,8 @@ static void connectionHandle(CFSocketRef sref, CFSocketCallBackType type, CFData
 /// Process when a connection closes
 - (void)closeConnectionHandle:(StreamHandle *)handle
 {
-    
+    // Remove stream from set
+    [self.streamHandleMutable removeObject:handle];
 }
 
 @end
