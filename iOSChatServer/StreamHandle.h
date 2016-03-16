@@ -18,6 +18,7 @@
 @property NSInteger oBufSize;
 @property BOOL isOpen;
 @property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *UserName;
 @property (nonatomic, strong) id <StreamHandleDelegate> delegate;
 
 - (id) initWithStreams:(NSInputStream *)is outputStream:(NSOutputStream *)os;

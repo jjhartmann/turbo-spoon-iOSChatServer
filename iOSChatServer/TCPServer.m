@@ -123,7 +123,7 @@ static void connectionHandle(CFSocketRef sref, CFSocketCallBackType type, CFData
     for (StreamHandle *obj in self.streamHandleMutable)
     {
         if (obj != context)
-            [obj sendStringCmd:[NSString stringWithFormat:@"From: %@.\nMessage: %@ \n", @"JEREMY", message]];
+            [obj sendStringCmd:[NSString stringWithFormat:@"From: %@.\nMessage: %@ \n", context.UserName, message]];
     }
 }
 

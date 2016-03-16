@@ -153,9 +153,9 @@
     {
         // add user to group
         NSLog(@"User joined: %@", command[1]);
-        NSString *tmp = [NSString stringWithFormat:@"ECHO from IAM: %@ \n", command[1]];
-        [self sendStringCmd:tmp];
-
+//        NSString *tmp = [NSString stringWithFormat:@"ECHO from IAM: %@ \n", command[1]];
+//        [self sendStringCmd:tmp];
+        self.UserName = command[1];
     }
     
     // Check if this is message cmd.
