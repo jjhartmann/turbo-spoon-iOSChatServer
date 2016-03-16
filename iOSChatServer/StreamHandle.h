@@ -17,6 +17,7 @@
 @property NSInteger iBufSize;
 @property NSInteger oBufSize;
 @property BOOL isOpen;
+@property (nonatomic, strong) NSString *name;
 
 - (id) initWithStreams:(NSInputStream *)is outputStream:(NSOutputStream *)os;
 - (void)open;

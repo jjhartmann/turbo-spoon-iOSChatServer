@@ -10,6 +10,7 @@
 #include <CoreFoundation/CoreFoundation.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
+#import "StreamHandle.h"
 
 @interface TCPServer ()
 @property CFSocketRef socket;
@@ -30,7 +31,7 @@ static void connectionHandle(CFSocketRef sref, CFSocketCallBackType type, CFData
     // Create connection with file descriptor.
     if (type  == kCFSocketAcceptCallBack)
     {
-        
+        [obj streamAcceptedWithSocket:fileDescriptor];
     }
 }
 
@@ -103,8 +104,12 @@ static void connectionHandle(CFSocketRef sref, CFSocketCallBackType type, CFData
     NSOutputStream *outStream = (__bridge_transfer NSOutputStream *)writeStream;
     
     // Create new Stream handle and add to mutable array
+    StreamHandle *handle = [[StreamHandle alloc] initWithStreams:inStream outputStream:outStream];
+    handle.name = [NSString stringWithFormat:@"%zu", self.streamHandleSeqNumber];
+    self.streamHandleSeqNumber++;
+    [handle open];
     
-    
+    [self.streamHandleMutable addObject:handle];
 }
 
 @end
