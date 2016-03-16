@@ -9,7 +9,9 @@
 #import "StreamHandle.h"
 
 @interface StreamHandle ()
-
+@property (nonatomic, readwrite, strong) NSMutableData *iBuffer;
+@property (nonatomic, readwrite, strong) NSMutableData *oBuffer;
+@property BOOL hasSpaceAvailable;
 @end
 
 @implementation StreamHandle
