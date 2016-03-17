@@ -158,8 +158,6 @@
     {
         // add user to group
         NSLog(@"User joined: %@", command[1]);
-//        NSString *tmp = [NSString stringWithFormat:@"ECHO from IAM: %@ \n", command[1]];
-//        [self sendStringCmd:tmp];
         if ([self.UserName length] == 0 && [self.delegate respondsToSelector:@selector(proccessIAmCommand:context:)])
         {
             self.UserName = command[1];
@@ -172,8 +170,6 @@
     {
         // Broadcast message.
         NSLog(@"Message: %@", command[1]);
-//        NSString *tmp = [NSString stringWithFormat:@"ECHO from MSG: %@ \n", command[1]];
-//        [self sendStringCmd:tmp];
         if ([self.delegate respondsToSelector:@selector(processsMsgCommand:context:)])
         {
             [self.delegate processsMsgCommand:command[1] context:self];
