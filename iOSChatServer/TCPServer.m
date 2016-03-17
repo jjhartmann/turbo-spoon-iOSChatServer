@@ -73,7 +73,7 @@ static void connectionHandle(CFSocketRef sref, CFSocketCallBackType type, CFData
         CFRunLoopAddSource(CFRunLoopGetCurrent(), socketSource, kCFRunLoopDefaultMode);
         
         // Create Mutable array to store stream handles
-        _streamHandleMutable = [[NSMutableArray alloc] init];
+        _streamHandleMutable = [[NSMutableDictionary alloc] init];
         _streamHandleSeqNumber = 0;
     }
     
@@ -111,7 +111,7 @@ static void connectionHandle(CFSocketRef sref, CFSocketCallBackType type, CFData
     handle.delegate = self;
     [handle open];
     
-    [self.streamHandleMutable addObject:handle];
+    //[self.streamHandleMutable addObject:handle];
 }
 
 
@@ -134,10 +134,10 @@ static void connectionHandle(CFSocketRef sref, CFSocketCallBackType type, CFData
 }
 
 /// Process when a connection closes
-- (void)closeConnectionHandle:(StreamHandle *)handle
+- (void)closeConnectionHandle:(NSString *)username context:(StreamHandle *)context
 {
     // Remove stream from set
-    [self.streamHandleMutable removeObject:handle];
+    [self.streamHandleMutable removeObjectForKey:username];
 }
 
 @end

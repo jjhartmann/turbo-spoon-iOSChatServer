@@ -14,7 +14,7 @@
 @interface TCPServer : NSObject <StreamHandleDelegate>
 @property id <TCPServerDelegate> delegate;
 @property NSInteger portNumber;
-@property NSMutableArray *streamHandleMutable;
+@property NSMutableDictionary *streamHandleMutable;
 @property NSInteger streamHandleSeqNumber;
 
 - (id) initWithPort:(NSInteger)port;
