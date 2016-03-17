@@ -12,6 +12,8 @@
 @property (nonatomic, readwrite, strong) NSMutableData *iBuffer;
 @property (nonatomic, readwrite, strong) NSMutableData *oBuffer;
 @property BOOL hasSpaceAvailable;
+
+- (void)processCommands:(NSArray *)commands;
 @end
 
 @implementation StreamHandle
@@ -134,6 +136,42 @@
     
 }
 
+/// Process the parsed commands
+- (void)processCommands:(NSArray *)commands
+{
+    // Check if this is an "iam" add.
+    if ([commands[0] isEqualToString:@"iam"])
+    {
+        // add user to group
+        NSLog(@"User joined: %@", commands[1]);
+        if ([self.UserName length] == 0 && [self.delegate respondsToSelector:@selector(proccessIAmCommand:context:)])
+        {
+            [self.delegate proccessIAmCommand:commands[1] context:self];
+        }
+    }
+    
+    // Check if this is message cmd.
+    if ([commands[0] isEqualToString:@"msg"])
+    {
+        // Broadcast message.
+        NSLog(@"Message: %@", commands[1]);
+        if ([self.delegate respondsToSelector:@selector(processsMsgCommand:context:)])
+        {
+            [self.delegate processsMsgCommand:commands[1] context:self];
+        }
+    }
+    
+    // Check for sndgrp message
+    if ([commands[0] isEqualToString:@"sndgrp"])
+    {
+        NSLog(@"Send to group: [%@] \nMessage: %@", commands[1], commands[2]);
+        if ([self.delegate respondsToSelector:@selector(processMsgToGrp:group:context:)])
+        {
+            [self.delegate processMsgToGrp:commands[2] group:commands[1] context:self];
+        }
+    }
+}
+
 /// Parse the data in held inside the iBuffer NSMultableData
 - (void)parseBufferInput
 {
@@ -152,30 +190,7 @@
     
     // Process command
     NSArray *command = [commandString componentsSeparatedByString:@":"];
-    
-    // Check if this is an "iam" add.
-    if ([command[0] isEqualToString:@"iam"])
-    {
-        // add user to group
-        NSLog(@"User joined: %@", command[1]);
-        if ([self.UserName length] == 0 && [self.delegate respondsToSelector:@selector(proccessIAmCommand:context:)])
-        {
-            [self.delegate proccessIAmCommand:command[1] context:self];
-        }
-    }
-    
-    // Check if this is message cmd.
-    if ([command[0] isEqualToString:@"msg"])
-    {
-        // Broadcast message.
-        NSLog(@"Message: %@", command[1]);
-        if ([self.delegate respondsToSelector:@selector(processsMsgCommand:context:)])
-        {
-            [self.delegate processsMsgCommand:command[1] context:self];
-        }
-    }
-    
-
+    [self processCommands:command];
 }
 
 /// Send string command to clients
