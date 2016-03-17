@@ -130,6 +130,20 @@ static void connectionHandle(CFSocketRef sref, CFSocketCallBackType type, CFData
 /// Process the iam command and add user to connection
 - (void)proccessIAmCommand:(NSString *)name context:(StreamHandle *)context
 {
+    StreamHandle *tmp = [self.streamHandleMutable objectForKey:name];
+
+    if (!tmp)
+    {
+        // If not in map, add
+        [self.streamHandleMutable setObject:context forKey:name];
+        [context sendStringCmd:[NSString stringWithFormat:@"addusercb:YES"]];
+    }
+    else
+    {
+        // Name alread taken
+        [context sendStringCmd:[NSString stringWithFormat:@"addusercb:NO"]];
+    }
+    
     
 }
 
