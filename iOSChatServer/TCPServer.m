@@ -73,8 +73,11 @@ static void connectionHandle(CFSocketRef sref, CFSocketCallBackType type, CFData
         CFRunLoopAddSource(CFRunLoopGetCurrent(), socketSource, kCFRunLoopDefaultMode);
         
         // Create Mutable array to store stream handles
-        _streamHandleMutable = [[NSMutableDictionary alloc] init];
-        _streamMutableArray = [[NSMutableArray alloc] init];
+        _usernameStreamIDDictionary = [[NSMutableDictionary alloc] init];
+                
+        // Set up group-username-stream map
+        _groupIDStreamIDStreamHandleDictionary = [[NSMutableDictionary alloc] init];
+        [_groupIDStreamIDStreamHandleDictionary setObject:[[NSMutableDictionary alloc] init] forKey:@"public"];
         _streamHandleSeqNumber = 0;
     }
     
@@ -107,12 +110,13 @@ static void connectionHandle(CFSocketRef sref, CFSocketCallBackType type, CFData
     
     // Create new Stream handle and add to mutable array
     StreamHandle *handle = [[StreamHandle alloc] initWithStreams:inStream outputStream:outStream];
-    handle.name = [NSString stringWithFormat:@"%zu", self.streamHandleSeqNumber];
+    handle.streamID = [NSString stringWithFormat:@"%li", self.streamHandleSeqNumber];
     self.streamHandleSeqNumber++;
     handle.delegate = self;
     [handle open];
     
-    [self.streamMutableArray addObject:handle];
+    // Set stream inside map indexed by <group> <id>
+    [[self.groupIDStreamIDStreamHandleDictionary objectForKey:@"public"] setObject:handle forKey:handle.streamID];
 }
 
 
@@ -121,8 +125,23 @@ static void connectionHandle(CFSocketRef sref, CFSocketCallBackType type, CFData
 - (void)processsMsgCommand:(NSString *)message context:(StreamHandle *)context
 {
     // Broadcast message to all connected clients
-    for (StreamHandle *obj in self.streamHandleMutable)
+    NSMutableDictionary *groupDict = [self.groupIDStreamIDStreamHandleDictionary objectForKey:@"public"];
+    for (NSString *key in groupDict)
     {
+        StreamHandle *obj = [groupDict objectForKey:key];
+        if (obj != context)
+            [obj sendStringCmd:[NSString stringWithFormat:@"From: %@.\nMessage: %@ \n", context.UserName, message]];
+    }
+}
+
+/// Process message with group param
+- (void)processMsgToGrp:(NSString *)message group:(NSString *)group context:(StreamHandle *)context
+{
+    // Broadcast message to all connected clients
+    NSMutableDictionary *groupDict = [self.groupIDStreamIDStreamHandleDictionary objectForKey:group];
+    for (NSString *key in groupDict)
+    {
+        StreamHandle *obj = [groupDict objectForKey:key];
         if (obj != context)
             [obj sendStringCmd:[NSString stringWithFormat:@"From: %@.\nMessage: %@ \n", context.UserName, message]];
     }
@@ -131,12 +150,12 @@ static void connectionHandle(CFSocketRef sref, CFSocketCallBackType type, CFData
 /// Process the iam command and add user to connection
 - (void)proccessIAmCommand:(NSString *)name context:(StreamHandle *)context
 {
-    StreamHandle *tmp = [self.streamHandleMutable objectForKey:name];
+    NSString *tmp = [self.usernameStreamIDDictionary objectForKey:name];
 
     if (!tmp)
     {
         // If not in map, add
-        [self.streamHandleMutable setObject:context forKey:name];
+        [self.usernameStreamIDDictionary setObject:context.streamID forKey:name];
         [context sendStringCmd:[NSString stringWithFormat:@"addusercb:YES\n"]];
     }
     else
@@ -152,8 +171,12 @@ static void connectionHandle(CFSocketRef sref, CFSocketCallBackType type, CFData
 - (void)closeConnectionHandle:(NSString *)username context:(StreamHandle *)context
 {
     // Remove stream from set
-    [self.streamHandleMutable removeObjectForKey:username];
-    [self.streamMutableArray removeObject:context];
+    for (NSMutableDictionary *d in self.groupIDStreamIDStreamHandleDictionary)
+    {
+        [[self.groupIDStreamIDStreamHandleDictionary objectForKey:d] removeObjectForKey:context.streamID];
+    }
+    
+    [self.usernameStreamIDDictionary removeObjectForKey:context.UserName];
 }
 
 @end
