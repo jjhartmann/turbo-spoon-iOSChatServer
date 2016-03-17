@@ -156,6 +156,8 @@ static void connectionHandle(CFSocketRef sref, CFSocketCallBackType type, CFData
     {
         // If not in map, add
         [self.usernameStreamIDDictionary setObject:context.streamID forKey:name];
+        
+        context.UserName = name;
         [context sendStringCmd:[NSString stringWithFormat:@"addusercb:YES\n"]];
     }
     else

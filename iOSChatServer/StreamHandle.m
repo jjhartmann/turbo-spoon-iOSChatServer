@@ -160,7 +160,6 @@
         NSLog(@"User joined: %@", command[1]);
         if ([self.UserName length] == 0 && [self.delegate respondsToSelector:@selector(proccessIAmCommand:context:)])
         {
-            self.UserName = command[1];
             [self.delegate proccessIAmCommand:command[1] context:self];
         }
     }
