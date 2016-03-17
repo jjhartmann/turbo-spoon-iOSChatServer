@@ -132,6 +132,9 @@ static void connectionHandle(CFSocketRef sref, CFSocketCallBackType type, CFData
         if (obj != context)
             [obj sendStringCmd:[NSString stringWithFormat:@"From: %@.\nMessage: %@ \n", context.UserName, message]];
     }
+    
+    // send calling context success
+    [context sendStringCmd:@"msgsent:YES\n"];
 }
 
 /// Process message with group param
@@ -139,12 +142,38 @@ static void connectionHandle(CFSocketRef sref, CFSocketCallBackType type, CFData
 {
     // Broadcast message to all connected clients
     NSMutableDictionary *groupDict = [self.groupIDStreamIDStreamHandleDictionary objectForKey:group];
-    for (NSString *key in groupDict)
+    
+    // Get if group is avaliable, if not create.
+    if (!groupDict)
     {
-        StreamHandle *obj = [groupDict objectForKey:key];
+        NSLog(@"Creating Group: %@", group);
+        [self.groupIDStreamIDStreamHandleDictionary setObject:[NSMutableDictionary new] forKey:group];
+        [[self.groupIDStreamIDStreamHandleDictionary objectForKey:group] setObject:context forKey:context.streamID];
+        
+        // Send calling client message that groups has been added.
+        [context sendStringCmd:@"grpcreate:YES\n"];
+        [context sendStringCmd:@"msgsent:NO\n"];
+        return;
+    }
+    
+    BOOL contextInGroup = ([groupDict objectForKey:context.streamID] == context);
+    if (!contextInGroup)
+    {
+        // Add context and send confirmation
+        [groupDict setObject:context  forKey:context.streamID];
+        [context sendStringCmd:@"subgrp:%@\n", group];
+    }
+    
+    // If group is currently available
+    for (NSString *streamID in groupDict)
+    {
+        StreamHandle *obj = [groupDict objectForKey:streamID];
         if (obj != context)
             [obj sendStringCmd:[NSString stringWithFormat:@"From: %@.\nMessage: %@ \n", context.UserName, message]];
     }
+    
+    // send calling context success
+    [context sendStringCmd:@"msgsent:YES\n"];
 }
 
 /// Process the iam command and add user to connection
