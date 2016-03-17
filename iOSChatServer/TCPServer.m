@@ -161,7 +161,7 @@ static void connectionHandle(CFSocketRef sref, CFSocketCallBackType type, CFData
     {
         // Add context and send confirmation
         [groupDict setObject:context  forKey:context.streamID];
-        [context sendStringCmd:@"subgrp:%@\n", group];
+        [context sendStringCmd:[NSString stringWithFormat:@"subgrp:%@\n", group]];
     }
     
     // If group is currently available
