@@ -160,9 +160,9 @@
         NSLog(@"User joined: %@", command[1]);
 //        NSString *tmp = [NSString stringWithFormat:@"ECHO from IAM: %@ \n", command[1]];
 //        [self sendStringCmd:tmp];
-        self.UserName = command[1];
-        if ([self.delegate respondsToSelector:@selector(proccessIAmCommand:context:)])
+        if ([self.UserName length] == 0 && [self.delegate respondsToSelector:@selector(proccessIAmCommand:context:)])
         {
+            self.UserName = command[1];
             [self.delegate proccessIAmCommand:command[1] context:self];
         }
     }

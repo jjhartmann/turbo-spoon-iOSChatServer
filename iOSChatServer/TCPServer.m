@@ -137,12 +137,12 @@ static void connectionHandle(CFSocketRef sref, CFSocketCallBackType type, CFData
     {
         // If not in map, add
         [self.streamHandleMutable setObject:context forKey:name];
-        [context sendStringCmd:[NSString stringWithFormat:@"addusercb:YES"]];
+        [context sendStringCmd:[NSString stringWithFormat:@"addusercb:YES\n"]];
     }
     else
     {
         // Name alread taken
-        [context sendStringCmd:[NSString stringWithFormat:@"addusercb:NO"]];
+        [context sendStringCmd:[NSString stringWithFormat:@"addusercb:NO\n"]];
     }
     
     
