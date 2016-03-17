@@ -83,9 +83,9 @@
     
     if (notify)
     {
-        if ([self.delegate respondsToSelector:@selector(closeConnectionHandle:)])
+        if ([self.delegate respondsToSelector:@selector(closeConnectionHandle:context:)])
         {
-            [self.delegate closeConnectionHandle:self];
+            [self.delegate closeConnectionHandle:self.UserName context:self];
         }
     }
 }
@@ -162,6 +162,10 @@
 //        NSString *tmp = [NSString stringWithFormat:@"ECHO from IAM: %@ \n", command[1]];
 //        [self sendStringCmd:tmp];
         self.UserName = command[1];
+        if ([self.delegate respondsToSelector:@selector(proccessIAmCommand:context:)])
+        {
+            [self.delegate proccessIAmCommand:command[1] context:self];
+        }
     }
     
     // Check if this is message cmd.

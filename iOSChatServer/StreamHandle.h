@@ -35,6 +35,6 @@
 
 - (void)proccessIAmCommand:(NSString *)name context:(StreamHandle *)context;
 - (void)processsMsgCommand:(NSString *)message context:(StreamHandle *)context;
-- (void)closeConnectionHandle:(StreamHandle *)handle;
+- (void)closeConnectionHandle:(NSString *)username context:(StreamHandle *)context;
 
 @end
