@@ -144,7 +144,7 @@
     {
         // add user to group
         NSLog(@"User joined: %@", commands[1]);
-        if ([self.UserName length] == 0 && [self.delegate respondsToSelector:@selector(proccessIAmCommand:context:)])
+        if ([self.delegate respondsToSelector:@selector(proccessIAmCommand:context:)])
         {
             [self.delegate proccessIAmCommand:commands[1] context:self];
         }

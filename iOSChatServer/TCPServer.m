@@ -169,7 +169,7 @@ static void connectionHandle(CFSocketRef sref, CFSocketCallBackType type, CFData
     {
         StreamHandle *obj = [groupDict objectForKey:streamID];
         if (obj != context)
-            [obj sendStringCmd:[NSString stringWithFormat:@"From: %@.\nMessage: %@ \n", context.UserName, message]];
+            [obj sendStringCmd:[NSString stringWithFormat:@"msg:%@:%@\n", context.UserName, message]];
     }
     
     // send calling context success
@@ -181,7 +181,7 @@ static void connectionHandle(CFSocketRef sref, CFSocketCallBackType type, CFData
 {
     NSString *tmp = [self.usernameStreamIDDictionary objectForKey:name];
 
-    if (!tmp)
+    if (!tmp && [context.UserName length] == 0)
     {
         // If not in map, add
         [self.usernameStreamIDDictionary setObject:context.streamID forKey:name];
@@ -208,6 +208,8 @@ static void connectionHandle(CFSocketRef sref, CFSocketCallBackType type, CFData
     }
     
     [self.usernameStreamIDDictionary removeObjectForKey:context.UserName];
+    
+    NSLog(@"User Removed: %@", context.UserName);
 }
 
 @end
