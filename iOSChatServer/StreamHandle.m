@@ -148,11 +148,10 @@
     // Remove CR LF
     NSString *commandString;
     NSScanner *scanner = [[NSScanner alloc] initWithString:inputString];
-    [scanner scanCharactersFromSet:[NSCharacterSet alphanumericCharacterSet] intoString:&commandString];
-    
+    [scanner scanCharactersFromSet:[[NSCharacterSet controlCharacterSet] invertedSet] intoString:&commandString];
     
     // Process command
-    NSArray *command = [inputString componentsSeparatedByString:@":"];
+    NSArray *command = [commandString componentsSeparatedByString:@":"];
     
     // Check if this is an "iam" add.
     if ([command[0] isEqualToString:@"iam"])
