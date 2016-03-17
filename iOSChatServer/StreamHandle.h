@@ -17,7 +17,7 @@
 @property NSInteger iBufSize;
 @property NSInteger oBufSize;
 @property BOOL isOpen;
-@property (nonatomic, strong) NSString *name;
+@property (nonatomic, strong) NSString *streamID;
 @property (nonatomic, strong) NSString *UserName;
 @property (nonatomic, strong) id <StreamHandleDelegate> delegate;
 
@@ -35,6 +35,7 @@
 
 - (void)proccessIAmCommand:(NSString *)name context:(StreamHandle *)context;
 - (void)processsMsgCommand:(NSString *)message context:(StreamHandle *)context;
+- (void)processMsgToGrp:(NSString *)message group:(NSString *)group context:(StreamHandle *)context;
 - (void)closeConnectionHandle:(NSString *)username context:(StreamHandle *)context;
 
 @end
