@@ -201,6 +201,11 @@ static void connectionHandle(CFSocketRef sref, CFSocketCallBackType type, CFData
 /// Process when a connection closes
 - (void)closeConnectionHandle:(NSString *)username context:(StreamHandle *)context
 {
+    if (!context || !context.streamID)
+    {
+        return;
+    }
+    
     // Remove stream from set
     if ([self.groupIDStreamIDStreamHandleDictionary count] > 0)
     {
