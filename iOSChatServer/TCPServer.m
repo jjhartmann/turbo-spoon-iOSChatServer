@@ -202,12 +202,27 @@ static void connectionHandle(CFSocketRef sref, CFSocketCallBackType type, CFData
 - (void)closeConnectionHandle:(NSString *)username context:(StreamHandle *)context
 {
     // Remove stream from set
-    for (NSMutableDictionary *d in self.groupIDStreamIDStreamHandleDictionary)
+    if ([self.groupIDStreamIDStreamHandleDictionary count] > 0)
     {
-        [[self.groupIDStreamIDStreamHandleDictionary objectForKey:d] removeObjectForKey:context.streamID];
+        for (NSMutableDictionary *d in self.groupIDStreamIDStreamHandleDictionary)
+        {
+            [[self.groupIDStreamIDStreamHandleDictionary objectForKey:d] removeObjectForKey:context.streamID];
+        }
+    }
+    if ([self.usernameStreamIDDictionary count] > 0)
+    {
+        [self.usernameStreamIDDictionary removeObjectForKey:context.UserName];
     }
     
-    [self.usernameStreamIDDictionary removeObjectForKey:context.UserName];
+    if (context.iStream)
+    {
+        [context.iStream close];
+    }
+    
+    if (context.oStream)
+    {
+        [context.oStream close];
+    }
     
     NSLog(@"User Removed: %@", context.UserName);
 }
